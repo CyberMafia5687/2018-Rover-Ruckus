@@ -2,9 +2,7 @@
 
 Hello there, fellow teams!
 
-
 This is Team 5687, Cyber Mafia. We're out of Carson City, Nevada, US.
-
 In this repository, you'll find the following programs:
 
 1. Constants (this is our class for any constants that show up in multiple programs)
@@ -19,6 +17,5 @@ In this repository, you'll find the following programs:
 10. RoverRuckus (this is the tele-op program for a base Tetrix robot we created)
 11. TestBot (this is a tele-op specifically designed for a demonstration Tetrix robot we have)
 
-
 We hope you have a wonderful season. Good luck!!
-// REPOSITORY LAST UPDATED: 12/16/18 \\
+/ REPOSITORY LAST UPDATED: 12/16/18 \
