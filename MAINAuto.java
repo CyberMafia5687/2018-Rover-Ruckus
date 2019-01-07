@@ -9,7 +9,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 // Extra Imports
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 // LAST UPDATED: 1/7/19 \\
@@ -21,26 +24,36 @@ public class MAINAuto extends LinearOpMode {
     private DcMotor liftMotor = null;
 
     // Servos
-    //
+    private Servo markerServo;
 
     // Sensors
     private BNO055IMU imu;
+    private DistanceSensor sensorRange;
+    DigitalChannel digitalMagLimit;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Running");
         telemetry.update();
-
+        
+        // Motors
         liftMotor = hardwareMap.dcMotor.get("liftMotor");
         liftMotor.setDirection(DcMotor.Direction.FORWARD);
+        
+        // Servos
+        //
 
         // Sensors
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
+        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+
+        digitalMagLimit = hardwareMap.get(DigitalChannel.class, "sensor_mag_limit");
+        digitalMagLimit.setMode(DigitalChannel.Mode.INPUT);
 
         //waitForStart();
         while (!opModeIsActive() && !isStopRequested()){
