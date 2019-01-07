@@ -2,7 +2,7 @@
 
 Hello there, fellow teams!
 
-This is Team 5687, Cyber Mafia. We're out of Carson City, Nevada, US.
+This is Team 5687, Cyber Mafia. We're from Carson City, Nevada, US.
 In this repository, you'll find the following programs:
 
 1. Constants (this is our class for any constants that show up in multiple programs)
