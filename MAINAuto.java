@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-// LAST UPDATED: 1/7/19 \\
+// LAST UPDATED: 1/10/19 \\
 @Autonomous
 // @Disabled
 public class MAINAuto extends LinearOpMode {
@@ -28,21 +28,21 @@ public class MAINAuto extends LinearOpMode {
 
     // Sensors
     private BNO055IMU imu;
-    private DistanceSensor sensorRange;
-    DigitalChannel digitalMagLimit;
+    // private DistanceSensor sensorRange;
+    // DigitalChannel digitalMagLimit;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Running");
         telemetry.update();
-        
+
         // Motors
-        liftMotor = hardwareMap.dcMotor.get("liftMotor");
+        liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
         liftMotor.setDirection(DcMotor.Direction.FORWARD);
-        
+
         // Servos
-        //
+        markerServo = hardwareMap.get(Servo.class, "markerServo");
 
         // Sensors
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -50,10 +50,10 @@ public class MAINAuto extends LinearOpMode {
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+        // sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
-        digitalMagLimit = hardwareMap.get(DigitalChannel.class, "sensor_mag_limit");
-        digitalMagLimit.setMode(DigitalChannel.Mode.INPUT);
+        // digitalMagLimit = hardwareMap.get(DigitalChannel.class, "sensor_mag_limit");
+        // digitalMagLimit.setMode(DigitalChannel.Mode.INPUT);
 
         //waitForStart();
         while (!opModeIsActive() && !isStopRequested()){
@@ -61,11 +61,20 @@ public class MAINAuto extends LinearOpMode {
             telemetry.update();
         }
 
-        // Landing
+        // Landing v1 w/ Adjustments
         if (opModeIsActive()) {
-            liftMotor.setPower(-0.75);
-            sleep(2600);
+            liftMotor.setPower(-0.65);
+            sleep(3500);
             liftMotor.setPower(0);
         }
+
+        /*
+        // Landing v2 (BETA)
+        if (digitalMagLimit.getState()){
+            liftMotor.setPower(-0.4);
+        } else{
+            liftMotor.setPower(0);
+        }
+        */
     }
 }
