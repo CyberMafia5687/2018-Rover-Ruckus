@@ -12,46 +12,56 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 
 
-// LAST UPDATED: 1/7/19 \\
+// LAST UPDATED: 1/14/19 \\
 @TeleOp
 // @Disabled
 public class MAINRev extends LinearOpMode {
 
     // Motors
-    private DcMotor leftMotor;
-    private DcMotor rightMotor;
+    private DcMotor frontLeftMotor;
+    private DcMotor backLeftMotor;
+    private DcMotor frontRightMotor;
+    private DcMotor backRightMotor;
     private DcMotor liftMotor;
-    private DcMotor armMotor;
+    private DcMotor armMotor1;
+    private DcMotor armMotor2;
     private DcMotor sweepMotor;
 
     // Servos
-    private Servo markerServo;
 
     // Sensors
-    DigitalChannel digitalMagLimit;
+    //DigitalChannel digitalMagLimit;
 
 
     @Override
     public void runOpMode() {
 
-        leftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        rightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        frontLeftMotor = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        backLeftMotor = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        frontRightMotor = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        backRightMotor = hardwareMap.get(DcMotor.class, "backRightMotor");
         liftMotor = hardwareMap.get(DcMotor.class, "liftMotor");
-        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
+        armMotor1 = hardwareMap.get(DcMotor.class, "armMotor1");
+        armMotor2 = hardwareMap.get(DcMotor.class, "armMotor2");
         sweepMotor = hardwareMap.get(DcMotor.class, "sweepMotor");
 
-        markerServo = hardwareMap.get(Servo.class, "markerServo");
+        /*
+        digitalMagLimit = hardwareMap.get(DigitalChannel.class, "sensorMagLimit");
+        digitalMagLimit.setMode(DigitalChannel.Mode.INPUT);
+        */
 
         telemetry.addData("Status", "Initializing...");
         telemetry.update();
 
 
         // Wait for game to start (Driver, press PLAY)
-        // waitForStart();
+        waitForStart();
+        /*
         while (!opModeIsActive() && !isStopRequested()){
             telemetry.addData("Status", "Waiting for Start Command");
             telemetry.update();
         }
+        */
 
         // Run until end of match (End of match, press STOP)
         double tgtPower1 = 0;
@@ -64,12 +74,15 @@ public class MAINRev extends LinearOpMode {
 
            // Tank Drive
            tgtPower1 = this.gamepad1.left_stick_y;
-           leftMotor.setPower(tgtPower1);
+           frontLeftMotor.setPower(tgtPower1);
+           backLeftMotor.setPower(tgtPower1);
 
            tgtPower2 = -this.gamepad1.right_stick_y;
-           rightMotor.setPower(tgtPower2);
+           frontRightMotor.setPower(tgtPower2);
+           backRightMotor.setPower(tgtPower2);
 
-           // Moon Lander Lift Control
+           /*
+           // Moon Lander Lift Control v1
            if (this.gamepad1.dpad_up){
                liftMotor.setPower(-0.5);
                sleep(3230);
@@ -79,28 +92,35 @@ public class MAINRev extends LinearOpMode {
                sleep(3250);
                liftMotor.setPower(0);
            }
-
-           /*
-           else if (this.gamepad1.x){
-               break;
-           }
            */
 
            /*
-           while (true){
+           // Moon Lander Lift Control v2 (BETA)
+           while (digitalMagLimit.getState()){
                if (this.gamepad1.dpad_up){
-                   liftMotor.setPower(-0.5);
-                   sleep(3230);
-                   liftMotor.setPower(0);
+                   liftMotor.setPower(-0.4);
                } else if (this.gamepad1.dpad_down){
-                   liftMotor.setPower(0.55);
-                   sleep(3250);
+                   liftMotor.setPower(0.4);
+               } else{
                    liftMotor.setPower(0);
-               } else if (this.gamepad1.x){
-                   break;
                }
            }
-           */
+
+           // Moon Lander Lift Control v3 (BETA)
+            if (this.gamepad1.y){
+                liftMotor.setPower(-0.4);
+                sleep(500);
+                liftMotor.setPower(0);
+            }
+            if (this.gamepad1.dpad_up && digitalMagLimit.getState()){
+                liftMotor.setPower(-0.4);
+            } else if (this.gamepad1.dpad_down && digitalMagLimit.getState()){
+                liftMotor.setPower(0.4);
+            } else{
+               liftMotor.setPower(0);
+            }
+
+            */
 
            // Precision Lift Controls
            tgtPower3 = this.gamepad2.right_trigger;
@@ -110,14 +130,12 @@ public class MAINRev extends LinearOpMode {
 
            // Arm Control
            tgtPower4 = this.gamepad2.left_stick_y;
-           armMotor.setPower(-tgtPower4);
+           armMotor1.setPower(-tgtPower4);
+           armMotor2.setPower(-tgtPower4);
 
            // Sweeper Controls
-           if(gamepad2.left_bumper){
-               sweepMotor.setPower(tgtPower5);
-           } else if(gamepad2.right_bumper){
-               sweepMotor.setPower(-tgtPower5);
-           }
+           tgtPower5 = this.gamepad2.right_stick_y;
+           sweepMotor.setPower(tgtPower5);
 
            }
 
