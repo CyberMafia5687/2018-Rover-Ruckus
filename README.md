@@ -15,8 +15,9 @@ In this repository, you'll find the following programs:
 8. RoverAuto (this is the autonomous program for a base Tetrix robot we created)
 9. RoverRuckus (this is the tele-op program for a base Tetrix robot we created)
 10. TESTAuto (this is a test program; it'll probably become the MAINAuto later)
-11. TestBot (this is a tele-op specifically designed for a demonstration Tetrix robot we have)
+11. TESTCAuto (this is a new, still-in-testing Autonomous; includes marker depositing)
+12. TestBot (this is a tele-op specifically designed for a demonstration Tetrix robot we have)
 
 We hope you have a wonderful season. Good luck!!
 
-REPOSITORY LAST UPDATED: 1/14/19
+REPOSITORY LAST UPDATED: 2/6/19
