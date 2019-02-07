@@ -7,7 +7,7 @@ In this repository, you'll find the following programs:
 
 1. Constants (this is our class for any constants that show up in multiple programs)
 2. EncoderTest (this is a program designed to test a motor with encoders)
-3. MAINAuto (this is our main autonomous program for the 2018 - 2019 season)
+3. BACKUPAuto (replacement of MAINAuto)
 4. MAINRev (this is our main tele-op program for the 2018 - 2019 season)
 5. OmniRevAuto (this is our first autonomous program for our first REV robot)
 6. OmniRevRuckus (this is our first tele-op program for our fist REV robot)
