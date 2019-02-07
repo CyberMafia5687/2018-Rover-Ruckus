@@ -14,7 +14,7 @@ In this repository, you'll find the following programs:
 7. RevAuto (this is an old program; the first autonomous we've ever created)
 8. RoverAuto (this is the autonomous program for a base Tetrix robot we created)
 9. RoverRuckus (this is the tele-op program for a base Tetrix robot we created)
-10. TESTAuto (this is a test program; it'll probably become the MAINAuto later)
+10. CRATERAuto (previously TESTAuto; successfully identifies gold mineral & parks in crater)
 11. TESTCAuto (this is a new, still-in-testing Autonomous; includes marker depositing)
 12. TestBot (this is a tele-op specifically designed for a demonstration Tetrix robot we have)
 
