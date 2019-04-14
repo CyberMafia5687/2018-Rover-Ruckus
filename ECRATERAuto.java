@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 // Main Imports
-
 import android.os.Environment;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -26,7 +25,7 @@ import java.util.Locale;
 
 // Extra Imports
 
-// LAST UPDATED: 3/17/19 \\
+// LAST UPDATED: 4/14/19 \\
 @Autonomous
 // @Disabled
 public class ECRATERAuto extends LinearOpMode {
@@ -37,7 +36,7 @@ public class ECRATERAuto extends LinearOpMode {
     private DcMotor frontRightMotor;
     private DcMotor backRightMotor;
     private DcMotor liftMotor;
-    private DcMotor armMotor = null;
+    private DcMotor armMotor;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -106,6 +105,8 @@ public class ECRATERAuto extends LinearOpMode {
 
         armMotor = hardwareMap.get(DcMotor.class, "armMotor");
         armMotor.setDirection(DcMotor.Direction.FORWARD);
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Servos
         markerServo = hardwareMap.get(Servo.class, "markerServo");
@@ -136,33 +137,30 @@ public class ECRATERAuto extends LinearOpMode {
         // Landing v1 w/ Adjustments
         if (opModeIsActive()) {
 
-            // markerServo.setPosition(0);
-
             // Detach from Lander
-            liftMotor.setTargetPosition(liftDistance(200));
-            liftMotor.setPower(0.5);
+            liftMotor.setTargetPosition(liftDistance(215));
+            liftMotor.setPower(0.7);
             ElapsedTime t = new ElapsedTime();
-            while (t.milliseconds() < 10000) {
+            while (t.milliseconds() < 6500) {
                 telemetry.addData("lift pos", liftMotor.getCurrentPosition());
                 telemetry.update();
             }
             liftMotor.setPower(0);
 
-            sleep(30000);
-
-            /*
-            liftMotor.setPower(-0.65);
-            sleep(4970);
-            liftMotor.setPower(0);
-            */
-
             // Raise Arm for Phone
-            armMotor.setPower(-0.6);
-            sleep(3500);
-            armMotor.setPower(0);
+            armMotor.setTargetPosition(-240);
+            armMotor.setPower(0.5);
+            ElapsedTime r = new ElapsedTime();
+            while (armMotor.getCurrentPosition() > -200) {
+                telemetry.addData("Status", "The HitBot is acquiring the mineral...");
+                telemetry.update();
+            }
+
+            sleep(400);
+
 
             // Gold Locating (Gold Mineral Program)
-            telemetry.addData("Status", "HitBot is acquiring mineral...");
+            telemetry.addData("Status", "Mineral Acquired");
             telemetry.update();
 
             goldMineralPipeline.disable();
@@ -181,123 +179,77 @@ public class ECRATERAuto extends LinearOpMode {
 
             ////////////
 
-            telemetry.addData("Status", "HitBot is Running");
+            telemetry.addData("Current Position:", goldMineralLocator.getCurrentGoldMineral_Pos());
             telemetry.update();
 
             // Put Arm Back Down
-            armMotor.setPower(0.4);
-            sleep(2000);
-            armMotor.setPower(0);
+            sleep(200);
+            armMotor.setTargetPosition(-5);
+            armMotor.setPower(0.5);
 
-            // Back up, in case the latch doesn't disengage
-            /*
+            frontLeftMotor.setTargetPosition(288);
+            backLeftMotor.setTargetPosition(288);
+            frontRightMotor.setTargetPosition(288);
+            backRightMotor.setTargetPosition(288);
             frontLeftMotor.setPower(0.5);
             backLeftMotor.setPower(0.5);
             frontRightMotor.setPower(0.5);
             backRightMotor.setPower(0.5);
-            sleep(1000);
+            sleep(1500);
             frontLeftMotor.setPower(0);
             backLeftMotor.setPower(0);
             frontRightMotor.setPower(0);
             backRightMotor.setPower(0);
-            */
+
+            // Variable for Determining Left or Right turn
+            int x = 1;
+            if(mineralPosition == GoldMineral.MineralPosition.Right){
+                x = -1;
+            }
 
             // Center/Unknown, Left, Right
             if(mineralPosition == GoldMineral.MineralPosition.UNKNOWN ||
                     mineralPosition == GoldMineral.MineralPosition.Center){
-                frontLeftMotor.setTargetPosition(288);
-                backLeftMotor.setTargetPosition(288);
-                frontRightMotor.setTargetPosition(288);
-                backRightMotor.setTargetPosition(288);
-                frontLeftMotor.setPower(0.4);
-                backLeftMotor.setPower(0.4);
-                frontRightMotor.setPower(0.4);
-                backRightMotor.setPower(0.4);
-                sleep(3000);
+                frontLeftMotor.setTargetPosition(800);
+                backLeftMotor.setTargetPosition(800);
+                frontRightMotor.setTargetPosition(800);
+                backRightMotor.setTargetPosition(800);
+                frontLeftMotor.setPower(0.5);
+                backLeftMotor.setPower(0.5);
+                frontRightMotor.setPower(0.5);
+                backRightMotor.setPower(0.5);
+                sleep(4000);
                 frontLeftMotor.setPower(0);
                 backLeftMotor.setPower(0);
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
-                /*
-                frontLeftMotor.setPower(-0.5);
-                backLeftMotor.setPower(-0.5);
-                frontRightMotor.setPower(-0.5);
-                backRightMotor.setPower(-0.5);
-                sleep(2500);
-                frontLeftMotor.setPower(0);
-                backLeftMotor.setPower(0);
-                frontRightMotor.setPower(0);
-                backRightMotor.setPower(0);
-                */
-            } else if(mineralPosition == GoldMineral.MineralPosition.Left){
-                /*
-                if(orientation.firstAngle > -45){
-                    frontRightMotor.setPower(-0.3);
-                    backRightMotor.setPower(-0.3);
-                } else{
-                    frontRightMotor.setPower(0);
-                    backRightMotor.setPower(0);
-                }
-                */
 
-                frontLeftMotor.setPower(-0.5);
-                backLeftMotor.setPower(-0.5);
-                frontRightMotor.setPower(-0.5);
-                backRightMotor.setPower(-0.5);
-                sleep(400);
+            } else if(mineralPosition == GoldMineral.MineralPosition.Left || mineralPosition == GoldMineral.MineralPosition.Right){
+                //
+                sleep(500);
+                frontLeftMotor.setTargetPosition(x * -72 + frontLeftMotor.getCurrentPosition());
+                backLeftMotor.setTargetPosition(x * -72 + backLeftMotor.getCurrentPosition());
+                frontRightMotor.setTargetPosition(x * 72 + frontRightMotor.getCurrentPosition());
+                backRightMotor.setTargetPosition(x * 72 + backRightMotor.getCurrentPosition());
+                frontLeftMotor.setPower(0.5);
+                backLeftMotor.setPower(0.5);
+                frontRightMotor.setPower(0.5);
+                backRightMotor.setPower(0.5);
+                sleep(2000);
                 frontLeftMotor.setPower(0);
                 backLeftMotor.setPower(0);
                 frontRightMotor.setPower(0);
                 backRightMotor.setPower(0);
                 //
-                frontRightMotor.setPower(-0.5);
-                backRightMotor.setPower(-0.5);
-                sleep(800);
-                frontRightMotor.setPower(0);
-                backRightMotor.setPower(0);
-                //
-                frontLeftMotor.setPower(-0.5);
-                backLeftMotor.setPower(-0.5);
-                frontRightMotor.setPower(-0.5);
-                backRightMotor.setPower(-0.5);
-                sleep(1500);
-                frontLeftMotor.setPower(0);
-                backLeftMotor.setPower(0);
-                frontRightMotor.setPower(0);
-                backRightMotor.setPower(0);
-            } else if(mineralPosition == GoldMineral.MineralPosition.Right){
-                /*
-                if(orientation.firstAngle < 45){
-                    frontLeftMotor.setPower(-0.3);
-                    backLeftMotor.setPower(-0.3);
-                } else{
-                    frontLeftMotor.setPower(0);
-                    backLeftMotor.setPower(0);
-                }
-                */
-
-                //
-                frontLeftMotor.setPower(-0.5);
-                backLeftMotor.setPower(-0.5);
-                frontRightMotor.setPower(-0.5);
-                backRightMotor.setPower(-0.5);
-                sleep(400);
-                frontLeftMotor.setPower(0);
-                backLeftMotor.setPower(0);
-                frontRightMotor.setPower(0);
-                backRightMotor.setPower(0);
-                //
-                frontLeftMotor.setPower(-0.5);
-                backLeftMotor.setPower(-0.5);
-                sleep(900);
-                frontLeftMotor.setPower(0);
-                backRightMotor.setPower(0);
-                //
-                frontLeftMotor.setPower(-0.5);
-                backLeftMotor.setPower(-0.5);
-                frontRightMotor.setPower(-0.5);
-                backRightMotor.setPower(-0.5);
-                sleep(1500);
+                frontLeftMotor.setTargetPosition(550 + frontLeftMotor.getCurrentPosition());
+                backLeftMotor.setTargetPosition(550 + backLeftMotor.getCurrentPosition());
+                frontRightMotor.setTargetPosition(550 + frontRightMotor.getCurrentPosition());
+                backRightMotor.setTargetPosition(550 + backRightMotor.getCurrentPosition());
+                frontLeftMotor.setPower(0.5);
+                backLeftMotor.setPower(0.5);
+                frontRightMotor.setPower(0.5);
+                backRightMotor.setPower(0.5);
+                sleep(4000);
                 frontLeftMotor.setPower(0);
                 backLeftMotor.setPower(0);
                 frontRightMotor.setPower(0);
@@ -305,8 +257,13 @@ public class ECRATERAuto extends LinearOpMode {
             }
 
             // Put lift back down
-            liftMotor.setPower(0.65);
-            sleep(4970);
+            liftMotor.setTargetPosition(liftDistance(0));
+            liftMotor.setPower(0.7);
+            ElapsedTime e = new ElapsedTime();
+            while (e.milliseconds() < 6500) {
+                telemetry.addData("lift pos", liftMotor.getCurrentPosition());
+                telemetry.update();
+            }
             liftMotor.setPower(0);
 
         }
