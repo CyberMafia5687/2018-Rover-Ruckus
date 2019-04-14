@@ -25,7 +25,7 @@ import java.util.Locale;
 
 // Extra Imports
 
-// LAST UPDATED: 4/13/19 \\
+// LAST UPDATED: 4/14/19 \\
 @Autonomous
 // @Disabled
 public class EDEPOTAuto extends LinearOpMode {
@@ -158,14 +158,14 @@ public class EDEPOTAuto extends LinearOpMode {
             armMotor.setPower(0.5);
             ElapsedTime r = new ElapsedTime();
             while (armMotor.getCurrentPosition() > -200) {
-                telemetry.addData("arm pos", armMotor.getCurrentPosition());
+                telemetry.addData("Status", "The HitBot is acquiring the mineral");
                 telemetry.update();
             }
 
             sleep(400);
 
             // Gold Locating (Gold Mineral Program)
-            telemetry.addData("Status", "HitBot is acquiring mineral...");
+            telemetry.addData("Status", "Mineral Acquired");
             telemetry.update();
 
             goldMineralPipeline.disable();
@@ -293,15 +293,15 @@ public class EDEPOTAuto extends LinearOpMode {
                 backRightMotor.setPower(0);
                 sleep(200);
                 //
-                frontLeftMotor.setTargetPosition(710 + frontLeftMotor.getCurrentPosition());
-                backLeftMotor.setTargetPosition(710 + backLeftMotor.getCurrentPosition());
-                frontRightMotor.setTargetPosition(710 + frontRightMotor.getCurrentPosition());
-                backRightMotor.setTargetPosition(710 + backRightMotor.getCurrentPosition());
+                frontLeftMotor.setTargetPosition(750 + frontLeftMotor.getCurrentPosition());
+                backLeftMotor.setTargetPosition(750 + backLeftMotor.getCurrentPosition());
+                frontRightMotor.setTargetPosition(750 + frontRightMotor.getCurrentPosition());
+                backRightMotor.setTargetPosition(750 + backRightMotor.getCurrentPosition());
                 frontLeftMotor.setPower(0.6);
                 backLeftMotor.setPower(0.6);
                 frontRightMotor.setPower(0.6);
                 backRightMotor.setPower(0.6);
-                sleep(2400);
+                sleep(2450);
                 frontLeftMotor.setPower(0);
                 backLeftMotor.setPower(0);
                 frontRightMotor.setPower(0);
@@ -309,8 +309,8 @@ public class EDEPOTAuto extends LinearOpMode {
 
                 frontLeftMotor.setTargetPosition(frontLeftMotor.getCurrentPosition());
                 backLeftMotor.setTargetPosition(backLeftMotor.getCurrentPosition());
-                frontRightMotor.setTargetPosition(1150 + frontRightMotor.getCurrentPosition());
-                backRightMotor.setTargetPosition(1150 + backRightMotor.getCurrentPosition());
+                frontRightMotor.setTargetPosition(1090 + frontRightMotor.getCurrentPosition());
+                backRightMotor.setTargetPosition(1090 + backRightMotor.getCurrentPosition());
                 frontLeftMotor.setPower(0.6);
                 backLeftMotor.setPower(0.6);
                 frontRightMotor.setPower(0.6);
