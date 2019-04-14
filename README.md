@@ -17,8 +17,9 @@ In this repository, you'll find the following programs:
 10. CRATERAuto (previously TESTAuto; successfully identifies gold mineral & parks in crater)
 11. TESTCAuto (this is a new, still-in-testing Autonomous; includes marker depositing)
 12. TestBot (this is a tele-op specifically designed for a demonstration Tetrix robot we have)
-13. ECRATER (this is an autonomous with the purpose to test encoders)
+13. ECRATER (this is an autonomous with encoders)
+14. EDEPOT (this is another autonomous with encoders)
 
 We hope you have a wonderful season. Good luck!!
 
-REPOSITORY LAST UPDATED: 3/24/19
+REPOSITORY LAST UPDATED: 4/14/19
